@@ -5,7 +5,8 @@ Usage:
 # python3 getOpenRoamingAPs.py --token YOUR_TOKEN --csv_file your.csv --row_num CSV_ROW_NUM
 ```
 
-# your.csv
+# your.csv (row start from 0)
+Northern Latitude, Southern Latitude, Western Longitude, Eastern Longitude
 ```
 -60 -90 -180 -150
 -60 -90 -150 -120
