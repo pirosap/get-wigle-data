@@ -14,4 +14,7 @@ Northern Latitude, Southern Latitude, Western Longitude, Eastern Longitude
 -60 -90 -90 -60
 -60 -90 -60 -30
 -60 -90 -30 0
+・
+・
+・
 ```
