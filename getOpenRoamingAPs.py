@@ -14,20 +14,22 @@ MAX_RETRIES = 3
 def is_valid_token(token):
     return bool(re.fullmatch(r"[\w\-_=]*", token))
 
-def send_request(headers, latrange1, latrange2, longrange1, longrange2, search_after=None, row_num=None):
+def send_request(headers, latrange1, latrange2, longrange1, longrange2, search_after=None, row_num=None, after_date=None):
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     filename = os.path.join("tests", f"{row_num}_{latrange1}_{longrange1}_{timestamp}.csv")
 
     current_count = 0
     total_count = None
     retries = 0
+    if (after_date is None):
+        after_date = 20200319
 
     query_params = {
         "latrange1": latrange1,
         "latrange2": latrange2,
         "longrange1": longrange1,
         "longrange2": longrange2,
-        "lastupdt": 20200319,
+        "lastupdt": after_date,
         "rcoisMinimum": 1,
     }
 
@@ -113,6 +115,7 @@ def main():
     parser.add_argument("--token", required=True, help="Your API token")
     parser.add_argument("--csv_file", required=True, help="CSV file containing coordinates")
     parser.add_argument("--row_num", type=int, required=True, help="Row number to read coordinates from (0-based index)")
+    parser.add_argument("--after_date", required=False, help="Provide a date to scan from, default is 20200319")
     args = parser.parse_args()
 
     headers = {"Authorization": f"Basic {args.token}"}
@@ -126,7 +129,7 @@ def main():
         print(f"Error reading CSV file: {e}")
         return
 
-    send_request(headers, min_lat, max_lat, min_long, max_long, row_num=args.row_num)
+    send_request(headers, min_lat, max_lat, min_long, max_long, row_num=args.row_num, after_date=args.after_date)
 
 if __name__ == "__main__":
     main()
